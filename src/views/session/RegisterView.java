@@ -147,7 +147,7 @@ public class RegisterView extends JPanel {
                 return;
             }
 
-            User user = new User(nombre, correo, password);
+            User user = new User(nombre, password, correo);
             if (registerController.registerUser(user)) {
                 PopUpUtils.showMessageDialog(this, "✅ Registro exitoso.", true);
                 registerController.loadLoginView();

@@ -13,7 +13,7 @@ public class HomeController extends Controller {
     private final HomeView homeView = new HomeView(this);
     private final UserModel userModel = new UserModel();
 
-    private final LoginController loginController = new LoginController();
+    private final LoginController loginController = new LoginController(userModel);
     private final RegisterController registerController = new RegisterController(userModel);
 
     @Override

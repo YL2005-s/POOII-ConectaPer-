@@ -30,7 +30,7 @@ public class UserModel {
     }
 
     public boolean loginUser(String username, String password) {
-        String sql = "SELECT id, username, password, email FROM users WHERE username = ? AND password = ?";
+        String sql = "SELECT id, username, password, email FROM users WHERE email = ? AND password = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -44,6 +44,8 @@ public class UserModel {
                 usuarios.add(user);
                 return true;
             }
+
+            return false;
         } catch (SQLException e) {
             e.printStackTrace();
         }

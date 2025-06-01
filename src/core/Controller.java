@@ -33,6 +33,8 @@ public abstract class Controller {
     public static void destroyLoginView() {
         mainFrame.remove(viewsLogin);
         mainFrame.add(viewsViewer);
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
 
     public static void loadView(String viewName) {

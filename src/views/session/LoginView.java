@@ -2,6 +2,7 @@ package views.session;
 
 import controllers.session.LoginController;
 import utils.ImageUtils;
+import utils.PopUpUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +13,9 @@ import java.awt.event.MouseEvent;
 
 public class LoginView extends JPanel {
     private final LoginController loginController;
+
+    private JTextField tf_user;
+    private JPasswordField pf_password;
 
     public LoginView(LoginController loginController) {
         this.loginController = loginController;
@@ -69,7 +73,7 @@ public class LoginView extends JPanel {
         lbl_text.setForeground(Color.DARK_GRAY);
         textPanel.add(lbl_text, BorderLayout.NORTH);
 
-        JTextField tf_user = new JTextField();
+        tf_user = new JTextField();
         tf_user.setFont(new Font("SansSerif", Font.PLAIN, 16));
         tf_user.setMargin(new Insets(8, 10, 8, 10));
         tf_user.setBorder(new LineBorder(new Color(180, 180, 180), 1, true));
@@ -98,7 +102,7 @@ public class LoginView extends JPanel {
         layeredPanel.setPreferredSize(new Dimension(400, 45));
         textPanel.add(layeredPanel, BorderLayout.CENTER);
 
-        JPasswordField pf_password = new JPasswordField();
+        pf_password = new JPasswordField();
         pf_password.setFont(new Font("SansSerif", Font.PLAIN, 16));
         pf_password.setMargin(new Insets(8, 10, 8, 35));
         pf_password.setBorder(new LineBorder(new Color(180, 180, 180), 1, true));
@@ -156,6 +160,28 @@ public class LoginView extends JPanel {
                 btn_login.setBackground(new Color(160, 0, 0));
             } else {
                 btn_login.setBackground(new Color(200, 0, 0));
+            }
+        });
+
+        btn_login.addActionListener(l -> {
+            String correo = tf_user.getText().trim();
+            String password = new String(pf_password.getPassword());
+
+            if (correo.isEmpty() || password.isEmpty()) {
+                PopUpUtils.showMessageDialog(this, "Por favor, completa todos los campos.", false);
+                return;
+            }
+
+            if (!correo.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                PopUpUtils.showMessageDialog(this, "Por favor, ingresa un correo válido.", false);
+                return;
+            }
+
+            boolean success = loginController.verifyUser(correo, password);
+            if (success) {
+                loginController.loadMenuView();
+            } else {
+                PopUpUtils.showMessageDialog(this, "Correo o contraseña incorrectos.", false);
             }
         });
     }
